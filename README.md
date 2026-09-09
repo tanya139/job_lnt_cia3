@@ -104,5 +104,8 @@ Seed the database, log in as the candidate, search and apply to a job, then log 
 - `409` duplicate record
 - `500` unexpected server error
 
+## Frontend workflows
+Candidate, recruiter, and admin dashboards expose the supported API workflows in the browser. Candidates can manage saved jobs and alerts and review interviews and offers. Recruiters can manage companies and jobs, progress applicants, schedule interviews, and create offers. Administrators can review users, companies, jobs, applications, and reports.
+
 ## Known limitations
-This is an academic demonstration. It does not upload real resumes, send email/SMS alerts, include pagination, or provide production deployment configuration. Admin registration is available for local demonstration; in a production system it would be restricted.
+This is an academic demonstration. It does not upload real resumes, send email/SMS alerts, include pagination, or provide production deployment configuration. Admin accounts are created only by trusted setup or seed data; public registration is limited to Candidate and Recruiter roles.

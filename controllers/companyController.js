@@ -11,6 +11,11 @@ async function listCompanies(req, res) {
   res.json({ success: true, message: 'Companies retrieved', data: companies });
 }
 
+async function myCompanies(req, res) {
+  const companies = await Company.find({ recruiterIds: req.user._id }).populate('recruiterIds', 'name email');
+  res.json({ success: true, message: 'Your companies retrieved', data: companies });
+}
+
 async function getCompany(req, res) {
   const company = await Company.findById(req.params.id).populate('recruiterIds', 'name email');
   if (!company) throw fail('Company not found', 404, 'NOT_FOUND');
@@ -26,4 +31,4 @@ async function updateCompany(req, res) {
   res.json({ success: true, message: 'Company updated', data: company });
 }
 
-module.exports = { createCompany, listCompanies, getCompany, updateCompany };
+module.exports = { createCompany, listCompanies, myCompanies, getCompany, updateCompany };

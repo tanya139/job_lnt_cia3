@@ -1,5 +1,7 @@
 const Application = require('../models/Application');
 const JobPosting = require('../models/JobPosting');
+const User = require('../models/User');
+const Company = require('../models/Company');
 
 async function funnel(req, res) {
   const stages = ['Applied', 'Shortlisted', 'Interview', 'Offered', 'Rejected', 'Hired'];
@@ -18,4 +20,24 @@ async function jobsReport(req, res) {
   res.json({ success: true, message: 'Jobs report retrieved', data: { totalJobPostings: jobs.length, openJobs: jobs.filter(job => job.status === 'Open').length, closedJobs: jobs.filter(job => job.status === 'Closed').length, jobsByLocation: byLocation, timeToHireDays } });
 }
 
-module.exports = { funnel, jobsReport };
+async function users(req, res) {
+  const data = await User.find().select('name email role createdAt').sort({ createdAt: -1 });
+  res.json({ success: true, message: 'Users retrieved', data });
+}
+
+async function companies(req, res) {
+  const data = await Company.find().populate('recruiterIds', 'name email').sort({ createdAt: -1 });
+  res.json({ success: true, message: 'Companies retrieved', data });
+}
+
+async function overview(req, res) {
+  const data = await Application.find().populate('candidateId', 'name email').populate({ path: 'jobId', select: 'title recruiterId companyId', populate: [{ path: 'recruiterId', select: 'name email' }, { path: 'companyId', select: 'name' }] }).sort({ appliedAt: -1 });
+  res.json({ success: true, message: 'Recruitment overview retrieved', data });
+}
+
+async function allJobs(req, res) {
+  const data = await JobPosting.find().populate('companyId', 'name').populate('recruiterId', 'name email').sort({ createdAt: -1 });
+  res.json({ success: true, message: 'Jobs retrieved', data });
+}
+
+module.exports = { funnel, jobsReport, users, companies, overview, allJobs };

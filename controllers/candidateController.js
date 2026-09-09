@@ -21,7 +21,7 @@ async function myApplications(req, res) {
 
 async function myInterviews(req, res) {
   const applications = await Application.find({ candidateId: req.user._id }).select('_id');
-  const interviews = await Interview.find({ applicationId: { $in: applications.map(item => item._id) } }).populate('applicationId');
+  const interviews = await Interview.find({ applicationId: { $in: applications.map(item => item._id) } }).populate({ path: 'applicationId', populate: [{ path: 'candidateId', select: 'name email' }, { path: 'jobId', select: 'title recruiterId', populate: { path: 'recruiterId', select: 'name email' } }] });
   res.json({ success: true, message: 'Interviews retrieved', data: interviews });
 }
 

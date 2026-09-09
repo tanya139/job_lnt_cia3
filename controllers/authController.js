@@ -9,7 +9,7 @@ function userData(user) {
 
 async function register(req, res) {
   const { name, email, password, role = 'Candidate' } = req.body;
-  if (!['Candidate', 'Recruiter', 'Admin'].includes(role)) throw fail('Invalid role');
+  if (!['Candidate', 'Recruiter'].includes(role)) throw fail('Only Candidate or Recruiter registration is allowed', 403, 'FORBIDDEN');
   if (await User.findOne({ email })) throw fail('Email is already registered', 409, 'DUPLICATE_EMAIL');
   const passwordHash = await bcrypt.hash(password, 10);
   const user = await User.create({ name, email, password: passwordHash, role });

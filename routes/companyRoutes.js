@@ -7,6 +7,7 @@ const { validate } = require('../middleware/validate');
 const controller = require('../controllers/companyController');
 
 router.get('/', asyncHandler(controller.listCompanies));
+router.get('/mine', protect, allowRoles('Recruiter', 'Admin'), asyncHandler(controller.myCompanies));
 router.get('/:id', asyncHandler(controller.getCompany));
 router.post('/', protect, allowRoles('Recruiter', 'Admin'), body('name').trim().notEmpty(), validate, asyncHandler(controller.createCompany));
 router.put('/:id', protect, allowRoles('Recruiter', 'Admin'), asyncHandler(controller.updateCompany));

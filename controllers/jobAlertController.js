@@ -1,4 +1,5 @@
 const JobAlert = require('../models/JobAlert');
+const { fail } = require('../middleware/validate');
 const JobPosting = require('../models/JobPosting');
 
 async function createAlert(req, res) {
@@ -18,4 +19,10 @@ async function listAlerts(req, res) {
   res.json({ success: true, message: 'Job alerts retrieved', data: alerts });
 }
 
-module.exports = { createAlert, listAlerts };
+async function deleteAlert(req, res) {
+  const alert = await JobAlert.findOneAndDelete({ _id: req.params.id, candidateId: req.user._id });
+  if (!alert) throw fail('Job alert not found', 404, 'NOT_FOUND');
+  res.json({ success: true, message: 'Job alert deleted', data: null });
+}
+
+module.exports = { createAlert, listAlerts, deleteAlert };

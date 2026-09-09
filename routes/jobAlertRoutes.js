@@ -7,4 +7,5 @@ const controller = require('../controllers/jobAlertController');
 router.use(protect, allowRoles('Candidate'));
 router.get('/', asyncHandler(controller.listAlerts));
 router.post('/', asyncHandler(controller.createAlert));
+router.delete('/:id', asyncHandler(controller.deleteAlert));
 module.exports = router;

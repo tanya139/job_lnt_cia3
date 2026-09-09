@@ -14,7 +14,15 @@ async function createInterview(req, res) {
 }
 
 async function listInterviews(req, res) {
-  const interviews = await Interview.find().populate({ path: 'applicationId', populate: [{ path: 'candidateId', select: 'name email' }, { path: 'jobId', select: 'title' }] });
+  let applicationQuery = {};
+  if (req.user.role === 'Candidate') applicationQuery = { candidateId: req.user._id };
+  if (req.user.role === 'Recruiter') {
+    const jobs = await require('../models/JobPosting').find({ recruiterId: req.user._id }).select('_id');
+    applicationQuery = { jobId: { $in: jobs.map(job => job._id) } };
+  }
+  const applicationIds = req.user.role === 'Admin' ? undefined : await Application.find(applicationQuery).distinct('_id');
+  const interviews = await Interview.find(applicationIds ? { applicationId: { $in: applicationIds } } : {})
+    .populate({ path: 'applicationId', populate: [{ path: 'candidateId', select: 'name email' }, { path: 'jobId', select: 'title recruiterId' }] });
   res.json({ success: true, message: 'Interviews retrieved', data: interviews });
 }
 

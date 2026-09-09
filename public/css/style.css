@@ -1,0 +1,8 @@
+body { background: #f5f7fa; color: #253044; }
+.navbar-brand { font-weight: 600; }
+.page-header { padding: 2rem 0 1rem; }
+.card { border: 1px solid #dde3ea; }
+.job-card { height: 100%; }
+.alert-area { min-height: 24px; }
+.table th { white-space: nowrap; }
+footer { margin-top: 3rem; padding: 1.5rem 0; background: #e9eef3; }

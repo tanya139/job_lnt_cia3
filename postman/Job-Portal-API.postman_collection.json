@@ -1,0 +1,28 @@
+{
+  "info": { "name": "Job Portal API", "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json" },
+  "variable": [{ "key": "baseUrl", "value": "http://localhost:5000" }, { "key": "token", "value": "" }, { "key": "jobId", "value": "" }, { "key": "applicationId", "value": "" }, { "key": "offerId", "value": "" }],
+  "item": [
+    { "name": "Authentication", "item": [
+      { "name": "Register", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"name\": \"New Candidate\",\n  \"email\": \"new@example.com\",\n  \"password\": \"Password@123\",\n  \"role\": \"Candidate\"\n}" }, "url": "{{baseUrl}}/api/auth/register" } },
+      { "name": "Login", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"email\": \"candidate@example.com\",\n  \"password\": \"Candidate@123\"\n}" }, "url": "{{baseUrl}}/api/auth/login" } }
+    ] },
+    { "name": "Jobs", "item": [
+      { "name": "Search jobs", "request": { "method": "GET", "url": "{{baseUrl}}/api/jobs/search?title=developer&location=Bangalore" } },
+      { "name": "Create job", "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"companyId\": \"COMPANY_ID\",\n  \"title\": \"Backend Developer\",\n  \"description\": \"Work on APIs\",\n  \"skills\": [\"Node.js\", \"MongoDB\"],\n  \"location\": \"Bangalore\",\n  \"salaryMin\": 300000,\n  \"salaryMax\": 600000,\n  \"experienceLevel\": \"Fresher\"\n}" }, "url": "{{baseUrl}}/api/jobs" } }
+    ] },
+    { "name": "Candidates", "item": [
+      { "name": "Save profile", "request": { "method": "PUT", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\"phone\":\"9999999999\",\"skills\":[\"JavaScript\"],\"education\":\"B.Tech\",\"resumeName\":\"resume.pdf\"}" }, "url": "{{baseUrl}}/api/candidates/profile" } },
+      { "name": "My applications", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/candidates/applications" } }
+    ] },
+    { "name": "Applications", "item": [
+      { "name": "Apply", "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\"jobId\":\"{{jobId}}\",\"resumeName\":\"resume.pdf\",\"coverNote\":\"Please consider my application.\"}" }, "url": "{{baseUrl}}/api/applications" } },
+      { "name": "Update stage", "request": { "method": "PUT", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\"stage\":\"Shortlisted\"}" }, "url": "{{baseUrl}}/api/applications/{{applicationId}}/stage" } }
+    ] },
+    { "name": "Interviews", "item": [{ "name": "Schedule interview", "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\"applicationId\":\"{{applicationId}}\",\"scheduledAt\":\"2026-12-01T10:00:00.000Z\",\"mode\":\"Online\",\"meetingLink\":\"https://meet.example.com/demo\"}" }, "url": "{{baseUrl}}/api/interviews" } }] },
+    { "name": "Recruiter", "item": [{ "name": "Applicants", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/recruiter/applicants?stage=Shortlisted" } }] },
+    { "name": "Saved Jobs", "item": [{ "name": "Save job", "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\"jobId\":\"{{jobId}}\"}" }, "url": "{{baseUrl}}/api/saved-jobs" } }] },
+    { "name": "Job Alerts", "item": [{ "name": "Create alert", "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\"keyword\":\"developer\",\"location\":\"Bangalore\",\"skills\":[\"Node.js\"]}" }, "url": "{{baseUrl}}/api/job-alerts" } }] },
+    { "name": "Offers", "item": [{ "name": "Create offer", "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\"applicationId\":\"{{applicationId}}\",\"salary\":500000,\"joiningDate\":\"2027-01-01\",\"offerLetterName\":\"offer.pdf\"}" }, "url": "{{baseUrl}}/api/offers" } }, { "name": "Accept offer", "request": { "method": "PUT", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\"status\":\"Accepted\"}" }, "url": "{{baseUrl}}/api/offers/{{offerId}}/status" } }] },
+    { "name": "Admin Reports", "item": [{ "name": "Funnel report", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/admin/reports/funnel" } }, { "name": "Jobs report", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/admin/reports/jobs" } }] }
+  ]
+}

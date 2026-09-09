@@ -70,6 +70,8 @@ These are local demo credentials created by `npm run seed`:
 | Recruiter | recruiter@example.com | Recruiter@123 |
 | Candidate | candidate@example.com | Candidate@123 |
 
+To use the administrator dashboard locally, run `npm run seed` and sign in with `admin@example.com` and `Admin@123`. Public registration intentionally offers only Candidate and Recruiter roles; production administrator accounts should be created by a trusted setup process.
+
 ## Main API endpoints
 | Method | Endpoint | Access |
 |---|---|---|
